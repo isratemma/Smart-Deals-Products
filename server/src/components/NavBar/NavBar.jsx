@@ -15,7 +15,12 @@ export default function Navbar() {
       <li>
         <NavLink to="/AllProducts">AllProducts</NavLink>
       </li>
-
+      <li>
+        <NavLink to='/register'>Register</NavLink>
+      </li>
+      <li>
+        <NavLink to='/login'>Login</NavLink>
+      </li>
       
     </>
   );
