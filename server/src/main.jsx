@@ -1,17 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import './index.css';
 
+import Rootlayouts from './layouts/Rootlayouts';
 import Home from './pages/Home';
 import About from './pages/About';
-
-import Rootlayouts from './layouts/Rootlayouts';
 import AllProducts from './components/AllProducts/AllProducts';
-import AuthProvides from './context/AuthProvides';
+import MyProducts from './components/MyProducts/MyProducts';
+import MyBids from './components/MyBids/MyBids';
+import CreateProduct from './pages/CreateProduct';
 import Register from './components/register/Register';
 import Login from './components/Login/Login';
+import AuthProvides from './context/AuthProvides';
 
 const router = createBrowserRouter([
   {
@@ -26,20 +28,32 @@ const router = createBrowserRouter([
         path: 'AllProducts',
         Component: AllProducts,
       },
+      {
+        path: 'my-products',
+        Component: MyProducts,
+      },
+      {
+        path: 'my-bids',
+        Component: MyBids,
+      },
+      {
+        path: 'create-product',
+        Component: CreateProduct,
+      },
+      {
+        path: 'about',
+        element: <About />,
+      },
+      {
+        path: 'register',
+        Component: Register,
+      },
+      {
+        path: 'login',
+        Component: Login,
+      },
     ],
   },
-  {
-    path: '/about',
-    element: <About />,
-  },
-  {
-    path: 'register',
-    Component: Register,
-  },
-  {
-    path: 'login',
-    Component: Login,
-  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

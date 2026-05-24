@@ -1,6 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 
 const Login = () => {
+  const { signInWithGoogle } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleGoogleSignIn = () => {
+    signInWithGoogle()
+      .then((result) => {
+        console.log('Signed in:', result.user.displayName);
+        navigate('/');
+      })
+      .catch((error) => {
+        console.error('Google sign-in error:', error.message);
+      });
+  };
+
   return (
     <div>
       <fieldset className="fieldset bg-base-100 border border-base-300 p-6 rounded-xl w-full max-w-md mx-auto mt-30">
@@ -22,22 +38,25 @@ const Login = () => {
           placeholder="Enter your password"
         />
 
-        {/* Sign in button */}
-        <button className="btn btn-neutral w-full mb-3 bg-primary
-        text-white">Login</button>
+        {/* Login button */}
+        <button className="btn btn-neutral w-full mb-3 bg-primary text-white">
+          Login
+        </button>
 
         {/* OR divider */}
         <div className="text-center text-sm text-gray-500 mb-3">OR</div>
 
-        {/* Google sign in */}
-        <button className="btn btn-outline w-full">Sign in with Google</button>
+        {/* Google sign in — now wired up */}
+        <button onClick={handleGoogleSignIn} className="btn btn-outline w-full">
+          Sign in with Google
+        </button>
 
         {/* Register link */}
         <p className="text-center text-sm mt-4">
-          Don’t have an account?{' '}
-          <a href="/register" className="text-primary font-medium">
+          Don't have an account?{' '}
+          <Link to="/register" className="text-primary font-medium">
             Register here.
-          </a>
+          </Link>
         </p>
       </fieldset>
     </div>
