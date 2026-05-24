@@ -5,7 +5,16 @@ const Register = () => {
 
   const {SignInWithGoogle} = use(AuthContext);
 
- const ha
+  const handleGoogleSignIn = () => {
+      SignInWithGoogle()
+        .then(result => {
+          const user = result.user;
+          console.log(user);
+        })
+        .catch(error => {
+          console.error(error);
+       })
+  }
 
   return (
     <div>
@@ -51,7 +60,8 @@ const Register = () => {
         </label>
 
         {/* Register button */}
-        <button className="btn btn-primary w-full mb-3">Register</button>
+        <button onClick={handleGoogleSignIn}
+          className="btn btn-primary w-full mb-3">Register</button>
 
         {/* OR */}
         <div className="text-center text-sm text-gray-500 mb-3">OR</div>
