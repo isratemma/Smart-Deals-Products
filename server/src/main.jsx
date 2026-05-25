@@ -15,6 +15,7 @@ import Register from './components/register/Register';
 import Login from './components/Login/Login';
 import AuthProvides from './context/AuthProvides';
 import ProductDetails from './components/AllProducts/ProductDetails';
+import EditProduct from './pages/EditProduct';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,11 @@ const router = createBrowserRouter([
       {
         path: 'my-products',
         Component: MyProducts,
+      },
+      {
+        path: 'edit-product/:id',
+        loader: ({ params }) => fetch(`http://localhost:3000/products/${params.id}`),
+        Component: EditProduct,
       },
       {
         path: 'my-bids',

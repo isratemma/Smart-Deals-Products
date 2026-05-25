@@ -1,12 +1,19 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
+import MyBids from '../MyBids/MyBids';
 
 const ProductDetails = () => {
   const product = useLoaderData();
   const { user } = useContext(AuthContext);
 
   const bidModalRef = useRef(null);
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/products/bids/${product._id}`)
+      .then((res) => res.json())
+      .then((data) => console.log('bids for this product', data));
+  }, [product._id]);
 
   const [name, setName] = useState(user?.displayName || '');
   const [email, setEmail] = useState(user?.email || '');
@@ -15,7 +22,8 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const { _id, title, image, description, minPrice, maxPrice, category } = product;
+  const { _id, title, image, description, minPrice, maxPrice, category } =
+    product;
 
   const handleBidModalOpen = () => {
     setSubmitted(false);
@@ -30,7 +38,10 @@ const ProductDetails = () => {
     e.preventDefault();
     setError('');
 
-    if (Number(bidAmount) < Number(minPrice) || Number(bidAmount) > Number(maxPrice)) {
+    if (
+      Number(bidAmount) < Number(minPrice) ||
+      Number(bidAmount) > Number(maxPrice)
+    ) {
       setError(`Bid must be between $${minPrice} and $${maxPrice}`);
       return;
     }
@@ -44,6 +55,7 @@ const ProductDetails = () => {
       bidAmount: Number(bidAmount),
       status: 'pending',
       bidTime: new Date().toISOString(),
+      image:user?.photoURL,
     };
 
     setLoading(true);
@@ -189,7 +201,9 @@ const ProductDetails = () => {
                     }`}
                   />
                   {user?.email && (
-                    <p className="text-xs text-gray-400 mt-1">Auto-filled from your account</p>
+                    <p className="text-xs text-gray-400 mt-1">
+                      Auto-filled from your account
+                    </p>
                   )}
                 </div>
 
@@ -257,6 +271,161 @@ const ProductDetails = () => {
           <button>close</button>
         </form>
       </dialog>
+      <div>
+        <h3 className="text-3xl">Bids for this product:<span className='text-primary'>{MyBids.length}</span></h3>
+        <div class="overflow-x-auto">
+  <table class="$$table">
+    <thead>
+      <tr>
+        <th>
+          <label>
+            <input type="checkbox" class="$$checkbox" />
+          </label>
+        </th>
+        <th>Name</th>
+        <th>Job</th>
+        <th>Favorite Color</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>
+          <label>
+            <input type="checkbox" class="$$checkbox" />
+          </label>
+        </th>
+        <td>
+          <div class="flex items-center gap-3">
+            <div class="$$avatar">
+              <div class="$$mask $$mask-squircle h-12 w-12">
+                <img
+                  src="https://img.daisyui.com/images/profile/demo/2@94.webp"
+                  alt="Avatar Tailwind CSS Component" />
+              </div>
+            </div>
+            <div>
+              <div class="font-bold">Hart Hagerty</div>
+              <div class="text-sm opacity-50">United States</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          Zemlak, Daniel and Leannon
+          <br />
+          <span class="$$badge $$badge-ghost $$badge-sm">Desktop Support Technician</span>
+        </td>
+        <td>Purple</td>
+        <th>
+          <button class="$$btn $$btn-ghost $$btn-xs">details</button>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <label>
+            <input type="checkbox" class="$$checkbox" />
+          </label>
+        </th>
+        <td>
+          <div class="flex items-center gap-3">
+            <div class="$$avatar">
+              <div class="$$mask $$mask-squircle h-12 w-12">
+                <img
+                  src="https://img.daisyui.com/images/profile/demo/3@94.webp"
+                  alt="Avatar Tailwind CSS Component" />
+              </div>
+            </div>
+            <div>
+              <div class="font-bold">Brice Swyre</div>
+              <div class="text-sm opacity-50">China</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          Carroll Group
+          <br />
+          <span class="$$badge $$badge-ghost $$badge-sm">Tax Accountant</span>
+        </td>
+        <td>Red</td>
+        <th>
+          <button class="$$btn $$btn-ghost $$btn-xs">details</button>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <label>
+            <input type="checkbox" class="$$checkbox" />
+          </label>
+        </th>
+        <td>
+          <div class="flex items-center gap-3">
+            <div class="$$avatar">
+              <div class="$$mask $$mask-squircle h-12 w-12">
+                <img
+                  src="https://img.daisyui.com/images/profile/demo/4@94.webp"
+                  alt="Avatar Tailwind CSS Component" />
+              </div>
+            </div>
+            <div>
+              <div class="font-bold">Marjy Ferencz</div>
+              <div class="text-sm opacity-50">Russia</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          Rowe-Schoen
+          <br />
+          <span class="$$badge $$badge-ghost $$badge-sm">Office Assistant I</span>
+        </td>
+        <td>Crimson</td>
+        <th>
+          <button class="$$btn $$btn-ghost $$btn-xs">details</button>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <label>
+            <input type="checkbox" class="$$checkbox" />
+          </label>
+        </th>
+        <td>
+          <div class="flex items-center gap-3">
+            <div class="$$avatar">
+              <div class="$$mask $$mask-squircle h-12 w-12">
+                <img
+                  src="https://img.daisyui.com/images/profile/demo/5@94.webp"
+                  alt="Avatar Tailwind CSS Component" />
+              </div>
+            </div>
+            <div>
+              <div class="font-bold">Yancy Tear</div>
+              <div class="text-sm opacity-50">Brazil</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          Wyman-Ledner
+          <br />
+          <span class="$$badge $$badge-ghost $$badge-sm">Community Outreach Specialist</span>
+        </td>
+        <td>Indigo</td>
+        <th>
+          <button class="$$btn $$btn-ghost $$btn-xs">details</button>
+        </th>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th>SL No.</th>
+        <th>Name</th>
+        <th>Job</th>
+        <th>Favorite Color</th>
+        <th></th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+      </div>
     </div>
   );
 };
