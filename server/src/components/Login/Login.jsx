@@ -9,8 +9,19 @@ const Login = () => {
   const handleGoogleSignIn = () => {
     signInWithGoogle()
       .then((result) => {
-        console.log('Signed in:', result.user.displayName);
-        navigate('/');
+        const newUser = {
+          name: result.user.displayName,
+          email: result.user.email,
+          photoURL: result.user.photoURL,
+        };
+        fetch('http://localhost:3000/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newUser),
+        })
+          .then((res) => res.json())
+          .then(() => navigate('/'))
+          .catch(() => navigate('/'));
       })
       .catch((error) => {
         console.error('Google sign-in error:', error.message);
@@ -20,7 +31,9 @@ const Login = () => {
   return (
     <div>
       <fieldset className="fieldset bg-base-100 border border-base-300 p-6 rounded-xl w-full max-w-md mx-auto mt-30">
-        <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
+        <h2 className="text-2xl font-bold text-center mb-4  ">
+          Login
+        </h2>
 
         {/* Email */}
         <label className="label">Email</label>
@@ -39,7 +52,7 @@ const Login = () => {
         />
 
         {/* Login button */}
-        <button className="btn btn-neutral w-full mb-3 bg-primary text-white">
+        <button className="btn btn-neutral w-full mb-3  bg-purple-600 hover:bg-purple-700 text-white font-semibold  rounded-lg ">
           Login
         </button>
 
