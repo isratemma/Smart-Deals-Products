@@ -17,6 +17,7 @@ const ProductDetails = () => {
   // Bids for this product
   const [bids, setBids] = useState([]);
   const [bidsLoading, setBidsLoading] = useState(true);
+  const [showAll, setShowAll] = useState(false);
 
   const { _id, title, image, description, minPrice, maxPrice, category } = product;
 
@@ -25,7 +26,11 @@ const ProductDetails = () => {
     fetch(`http://localhost:3000/bids?productId=${_id}`)
       .then((res) => res.json())
       .then((data) => {
-        setBids(Array.isArray(data) ? data : []);
+        // newest first
+        const sorted = Array.isArray(data)
+          ? data.sort((a, b) => new Date(b.bidTime) - new Date(a.bidTime))
+          : [];
+        setBids(sorted);
         setBidsLoading(false);
       })
       .catch(() => setBidsLoading(false));
@@ -74,8 +79,8 @@ const ProductDetails = () => {
       })
       .then(() => {
         setSubmitted(true);
-        // Refresh bids list
-        setBids((prev) => [...prev, { ...bidData, _id: Date.now() }]);
+        // Add new bid at the TOP of the list
+        setBids((prev) => [{ ...bidData, _id: Date.now() }, ...prev]);
       })
       .catch(() => setError('Something went wrong. Please try again.'))
       .finally(() => setLoading(false));
@@ -111,11 +116,21 @@ const ProductDetails = () => {
 
       {/* Bids Section */}
       <div className="max-w-4xl mx-auto mt-10">
-        <h2 className="text-2xl font-bold text-gray-800 mb-1">
-          Bids for this product{' '}
-          <span className="text-purple-600">({bids.length})</span>
-        </h2>
-        <p className="text-gray-400 text-sm mb-6">All bids placed on this product</p>
+        <div className="flex items-center justify-between mb-1">
+          <h2 className="text-2xl font-bold text-gray-800">
+            Bids for this product{' '}
+            <span className="text-purple-600">({bids.length})</span>
+          </h2>
+          {bids.length > 6 && (
+            <button
+              onClick={() => setShowAll((prev) => !prev)}
+              className="text-sm text-purple-600 hover:underline font-medium"
+            >
+              {showAll ? 'Show less' : `View all ${bids.length}`}
+            </button>
+          )}
+        </div>
+        <p className="text-gray-400 text-sm mb-6">Most recent bids shown first</p>
 
         {bidsLoading ? (
           <div className="flex justify-center py-10">
@@ -140,7 +155,7 @@ const ProductDetails = () => {
                 </tr>
               </thead>
               <tbody>
-                {bids.map((bid, i) => (
+                {(showAll ? bids : bids.slice(0, 6)).map((bid, i) => (
                   <tr key={bid._id || i} className="border-b border-gray-50 hover:bg-gray-50 transition">
 
                     {/* SL No */}
