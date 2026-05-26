@@ -10,9 +10,16 @@ const MyProducts = () => {
   useEffect(() => {
     if (user === null) { setLoading(false); return; }
     if (user === undefined) return;
-    fetch(`http://localhost:3000/products?email=${user.email}`)
+    fetch(`http://localhost:3000/products`)
       .then((res) => res.json())
-      .then((data) => { setProducts(Array.isArray(data) ? data : []); setLoading(false); })
+      .then((data) => {
+        // filter client-side by logged-in user email
+        const mine = Array.isArray(data)
+          ? data.filter((p) => p.email === user.email)
+          : [];
+        setProducts(mine);
+        setLoading(false);
+      })
       .catch(() => setLoading(false));
   }, [user]);
 

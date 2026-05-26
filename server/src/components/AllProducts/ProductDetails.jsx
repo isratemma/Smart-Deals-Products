@@ -29,13 +29,15 @@ const ProductDetails = () => {
   } = product;
 
   useEffect(() => {
-    fetch(`http://localhost:3000/bids?productId=${_id}`)
+    fetch(`http://localhost:3000/bids`)
       .then((res) => res.json())
       .then((data) => {
-        const sorted = Array.isArray(data)
-          ? data.sort((a, b) => new Date(b.bidTime) - new Date(a.bidTime))
+        const filtered = Array.isArray(data)
+          ? data
+              .filter((b) => b.productId === _id)
+              .sort((a, b) => new Date(b.bidTime || b.createdAt) - new Date(a.bidTime || a.createdAt))
           : [];
-        setBids(sorted);
+        setBids(filtered);
         setBidsLoading(false);
       })
       .catch(() => setBidsLoading(false));

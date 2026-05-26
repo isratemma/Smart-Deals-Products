@@ -11,10 +11,14 @@ const MyBids = () => {
     if (user === null) { setLoading(false); return; }
     if (user === undefined) return;
 
-    fetch(`http://localhost:3000/bids?email=${user.email}`)
+    fetch(`http://localhost:3000/bids`)
       .then((res) => res.json())
       .then((data) => {
-        setBids(Array.isArray(data) ? data : []);
+        // filter client-side by logged-in user email
+        const myBids = Array.isArray(data)
+          ? data.filter((b) => b.bidderEmail === user.email)
+          : [];
+        setBids(myBids);
         setLoading(false);
       })
       .catch(() => setLoading(false));
