@@ -103,74 +103,74 @@ const ProductDetails = () => {
     <div className="bg-gray-100 px-4 py-10">
       <div className="max-w-5xl mx-auto">
 
-        {/* Back link */}
-        <Link to="/AllProducts" className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-purple-600 mb-6 transition">
-          ← Back To Products
-        </Link>
-
         {/* ── Product Detail Card ── */}
         <div className="bg-white rounded-2xl shadow-md overflow-hidden">
           <div className="flex flex-col lg:flex-row">
 
-            {/* Left — Image */}
-            <div className="lg:w-2/5 bg-gray-50 flex items-center justify-center p-6">
-              <img
-                src={image}
-                alt={title}
-                className="w-full max-h-80 object-contain rounded-xl"
-                onError={(e) => { e.target.src = 'https://placehold.co/400x320?text=No+Image'; }}
-              />
+            {/* Left — Image + Description */}
+            <div className="lg:w-2/5 flex flex-col">
+              {/* Image */}
+              <div className="bg-gray-100 flex items-center justify-center p-6 min-h-64">
+                <img
+                  src={image}
+                  alt={title}
+                  className="w-full max-h-72 object-contain rounded-xl"
+                  onError={(e) => { e.target.src = 'https://placehold.co/400x320?text=No+Image'; }}
+                />
+              </div>
+
+              {/* Product Description below image */}
+              <div className="p-6 border-t border-gray-100">
+                <h3 className="text-lg font-bold text-gray-800 mb-3">Product Description</h3>
+                <div className="flex gap-6 text-sm mb-4">
+                  <span>
+                    <span className="text-purple-600 font-semibold">Condition : </span>
+                    <span className="text-gray-700">{condition || 'New'}</span>
+                  </span>
+                  <span>
+                    <span className="text-orange-500 font-semibold">Usage Time : </span>
+                    <span className="text-gray-700">{usageTime || 'N/A'}</span>
+                  </span>
+                </div>
+                <p className="text-gray-500 text-sm leading-relaxed">{description}</p>
+              </div>
             </div>
 
             {/* Right — Info */}
-            <div className="lg:w-3/5 p-8 flex flex-col gap-4">
+            <div className="lg:w-3/5 p-8 flex flex-col gap-4 border-l border-gray-100">
+              {/* Back link */}
+              <Link to="/AllProducts" className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-purple-600 transition">
+                ← Back To Products
+              </Link>
+
+              {/* Title */}
+              <h1 className="text-3xl font-bold text-gray-800">{title}</h1>
+
               {/* Category badge */}
               {category && (
-                <span className="text-xs font-semibold uppercase tracking-widest text-purple-500 bg-purple-50 px-3 py-1 rounded-full w-fit">
+                <span className="text-xs font-medium text-purple-500 bg-purple-50 border border-purple-200 px-3 py-1 rounded-full w-fit">
                   {category}
                 </span>
               )}
 
-              <h1 className="text-3xl font-bold text-gray-800">{title}</h1>
-
               {/* Price */}
-              <div>
-                <p className="text-2xl font-bold text-purple-600">${minPrice} - {maxPrice}</p>
+              <div className="border border-gray-100 rounded-xl p-4">
+                <p className="text-2xl font-bold text-green-500">${minPrice} - {maxPrice}</p>
                 <p className="text-xs text-gray-400 mt-0.5">Price starts from</p>
               </div>
 
               {/* Product Details */}
-              <div className="border border-gray-100 rounded-xl p-4 bg-gray-50">
-                <h3 className="text-sm font-semibold text-gray-700 mb-3">Product Details</h3>
-                <div className="grid grid-cols-2 gap-2 text-sm text-gray-500">
-                  <span>Product ID:</span>
-                  <span className="text-gray-700 font-mono text-xs truncate">{_id}</span>
-                  <span>Posted:</span>
-                  <span className="text-gray-700">{postedDate || 'N/A'}</span>
+              <div className="border border-gray-100 rounded-xl p-4">
+                <h3 className="text-base font-bold text-gray-800 mb-3">Product Details</h3>
+                <div className="space-y-1 text-sm text-gray-600">
+                  <p><span className="font-medium">Product ID: </span><span className="font-mono text-xs text-gray-500">{_id}</span></p>
+                  <p><span className="font-medium">Posted: </span>{postedDate || 'N/A'}</p>
                 </div>
               </div>
 
-              {/* Description */}
-              <div>
-                <h3 className="text-sm font-semibold text-gray-700 mb-2">Product Description</h3>
-                <div className="flex gap-4 text-xs mb-2">
-                  {condition && (
-                    <span className="text-purple-600 font-medium border border-purple-200 px-2 py-0.5 rounded-full">
-                      Condition: {condition}
-                    </span>
-                  )}
-                  {usageTime && (
-                    <span className="text-blue-600 font-medium border border-blue-200 px-2 py-0.5 rounded-full">
-                      Usage Time: {usageTime}
-                    </span>
-                  )}
-                </div>
-                <p className="text-gray-500 text-sm leading-relaxed line-clamp-4">{description}</p>
-              </div>
-
-              {/* Seller Info */}
-              <div className="border border-gray-100 rounded-xl p-4 bg-gray-50">
-                <h3 className="text-sm font-semibold text-gray-700 mb-3">Seller Information</h3>
+              {/* Seller Information — dashed blue border */}
+              <div className="border-2 border-dashed border-blue-400 rounded-xl p-4">
+                <h3 className="text-base font-bold text-gray-800 mb-3">Seller Information</h3>
                 <div className="flex items-start gap-3">
                   {sellerPhoto ? (
                     <img src={sellerPhoto} alt={sellerName}
@@ -181,40 +181,21 @@ const ProductDetails = () => {
                       {sellerName?.charAt(0)?.toUpperCase() || 'S'}
                     </div>
                   )}
-                  <div className="text-sm text-gray-600 space-y-0.5">
+                  <div className="text-sm text-gray-600 space-y-1">
                     <p className="font-semibold text-gray-800">{sellerName || 'Unknown Seller'}</p>
                     <p className="text-xs text-gray-400">{sellerEmail || 'N/A'}</p>
-                    {sellerLocation && <p>📍 Location: {sellerLocation}</p>}
-                    {sellerContact && <p>📞 Contact: {sellerContact}</p>}
+                    {sellerLocation && <p><span className="font-medium text-gray-700">Location:</span> {sellerLocation}</p>}
+                    {sellerContact && <p><span className="font-medium text-gray-700">Contact:</span> {sellerContact}</p>}
                     {sellerStatus && (
-                      <span className="inline-block bg-green-100 text-green-700 text-xs font-semibold px-2 py-0.5 rounded-full mt-1">
-                        {sellerStatus}
-                      </span>
+                      <p>
+                        <span className="font-medium text-gray-700">Status: </span>
+                        <span className="inline-block bg-yellow-400 text-white text-xs font-semibold px-2 py-0.5 rounded-full">
+                          {sellerStatus}
+                        </span>
+                      </p>
                     )}
                   </div>
                 </div>
-              </div>
-
-              {/* Photo URL */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Photo URL</label>
-                <input
-                  type="text"
-                  readOnly
-                  value={image || ''}
-                  className="w-full border border-gray-200 bg-gray-50 rounded-lg px-3 py-2 text-sm text-gray-500 cursor-default"
-                />
-              </div>
-
-              {/* Full Description */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Description</label>
-                <textarea
-                  readOnly
-                  value={description || ''}
-                  rows={4}
-                  className="w-full border border-gray-200 bg-gray-50 rounded-lg px-3 py-2 text-sm text-gray-500 resize-none cursor-default"
-                />
               </div>
 
               {/* CTA Button */}
