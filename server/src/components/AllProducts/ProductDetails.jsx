@@ -23,9 +23,9 @@ const ProductDetails = () => {
   const {
     _id, title, image, description,
     minPrice, maxPrice, category,
-    condition, usageTime, postedDate,
+    condition, usage, createdAt,
     sellerName, sellerEmail, sellerPhoto,
-    sellerLocation, sellerContact, sellerStatus,
+    location, sellerContact, status,
   } = product;
 
   useEffect(() => {
@@ -164,7 +164,7 @@ const ProductDetails = () => {
                 <h3 className="text-base font-bold text-gray-800 mb-3">Product Details</h3>
                 <div className="space-y-1 text-sm text-gray-600">
                   <p><span className="font-medium">Product ID: </span><span className="font-mono text-xs text-gray-500">{_id}</span></p>
-                  <p><span className="font-medium">Posted: </span>{postedDate || 'N/A'}</p>
+                  <p><span className="font-medium">Posted: </span>{createdAt || 'N/A'}</p>
                 </div>
               </div>
 
