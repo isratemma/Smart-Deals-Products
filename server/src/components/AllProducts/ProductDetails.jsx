@@ -129,7 +129,7 @@ const ProductDetails = () => {
                   </span>
                   <span>
                     <span className="text-orange-500 font-semibold">Usage Time : </span>
-                    <span className="text-gray-700">{usageTime || 'N/A'}</span>
+                    <span className="text-gray-700">{usage || 'N/A'}</span>
                   </span>
                 </div>
                 <p className="text-gray-500 text-sm leading-relaxed">{description}</p>
@@ -184,13 +184,13 @@ const ProductDetails = () => {
                   <div className="text-sm text-gray-600 space-y-1">
                     <p className="font-semibold text-gray-800">{sellerName || 'Unknown Seller'}</p>
                     <p className="text-xs text-gray-400">{sellerEmail || 'N/A'}</p>
-                    {sellerLocation && <p><span className="font-medium text-gray-700">Location:</span> {sellerLocation}</p>}
+                    {location && <p><span className="font-medium text-gray-700">Location:</span> {location}</p>}
                     {sellerContact && <p><span className="font-medium text-gray-700">Contact:</span> {sellerContact}</p>}
-                    {sellerStatus && (
+                    {status && (
                       <p>
                         <span className="font-medium text-gray-700">Status: </span>
                         <span className="inline-block bg-yellow-400 text-white text-xs font-semibold px-2 py-0.5 rounded-full">
-                          {sellerStatus}
+                          {status}
                         </span>
                       </p>
                     )}
