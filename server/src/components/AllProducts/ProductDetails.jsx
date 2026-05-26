@@ -195,6 +195,28 @@ const ProductDetails = () => {
                 </div>
               </div>
 
+              {/* Photo URL */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">Photo URL</label>
+                <input
+                  type="text"
+                  readOnly
+                  value={image || ''}
+                  className="w-full border border-gray-200 bg-gray-50 rounded-lg px-3 py-2 text-sm text-gray-500 cursor-default"
+                />
+              </div>
+
+              {/* Full Description */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">Description</label>
+                <textarea
+                  readOnly
+                  value={description || ''}
+                  rows={4}
+                  className="w-full border border-gray-200 bg-gray-50 rounded-lg px-3 py-2 text-sm text-gray-500 resize-none cursor-default"
+                />
+              </div>
+
               {/* CTA Button */}
               <button
                 onClick={handleOpenModal}
