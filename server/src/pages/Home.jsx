@@ -1,12 +1,20 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import LatestProducts from '../components/latestProducts/LatestProducts';
 
-const latestProductsPromise = fetch('http://localhost:3000/products')
-  .then((res) => res.json());
+// Creates a fresh promise each time — so retrying works
+const fetchProducts = () =>
+  fetch('http://localhost:3000/products').then((res) => {
+    if (!res.ok) throw new Error('Failed to fetch products');
+    return res.json();
+  });
 
 const Home = () => {
+  const [promise, setPromise] = useState(() => fetchProducts());
+
+  const handleRetry = () => setPromise(fetchProducts());
+
   return (
-    <div className="min-h-screen bg-gray-100 px-6 py-10">
+    <div className="bg-gray-100 px-6 py-10 min-h-screen">
       <Suspense
         fallback={
           <div className="flex justify-center items-center py-20">
@@ -14,7 +22,10 @@ const Home = () => {
           </div>
         }
       >
-        <LatestProducts latestProductsPromise={latestProductsPromise} />
+        <LatestProducts
+          latestProductsPromise={promise}
+          onRetry={handleRetry}
+        />
       </Suspense>
     </div>
   );
