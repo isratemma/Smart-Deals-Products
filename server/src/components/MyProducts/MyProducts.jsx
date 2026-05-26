@@ -15,7 +15,7 @@ const MyProducts = () => {
       .then((data) => {
         // filter client-side by logged-in user email
         const mine = Array.isArray(data)
-          ? data.filter((p) => p.email === user.email)
+          ? data.filter((p) => p.ownerEmail === user.email)
           : [];
         setProducts(mine);
         setLoading(false);
@@ -93,9 +93,9 @@ const MyProducts = () => {
                         className="w-12 h-10 object-cover rounded-lg bg-gray-100"
                         onError={(e) => { e.target.src = 'https://placehold.co/48x40?text=N/A'; }} />
                     </td>
-                    <td className="px-5 py-4 font-medium text-gray-800">{product.title}</td>
+                    <td className="px-5 py-4 font-medium text-gray-800">{product.name}</td>
                     <td className="px-5 py-4 text-gray-600">{product.category || '—'}</td>
-                    <td className="px-5 py-4 text-gray-700">${product.minPrice}</td>
+                    <td className="px-5 py-4 text-gray-700">${product.price}</td>
                     <td className="px-5 py-4">
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
                         product.status === 'sold' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
