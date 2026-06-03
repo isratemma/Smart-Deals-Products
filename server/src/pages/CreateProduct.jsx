@@ -37,7 +37,10 @@ const CreateProduct = () => {
 
     fetch('http://localhost:3000/products', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
       body: JSON.stringify(newProduct),
     })
       .then((res) => res.json())

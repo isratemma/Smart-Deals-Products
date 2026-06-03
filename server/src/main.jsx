@@ -16,12 +16,14 @@ import Login from './components/Login/Login';
 import AuthProvides from './context/AuthProvides';
 import ProductDetails from './components/AllProducts/ProductDetails';
 import EditProduct from './pages/EditProduct';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 
 const router = createBrowserRouter([
   {
     path: '/',
     Component: Rootlayouts,
     children: [
+      // Public routes
       {
         index: true,
         Component: Home,
@@ -31,26 +33,9 @@ const router = createBrowserRouter([
         Component: AllProducts,
       },
       {
-        path: 'my-products',
-        Component: MyProducts,
-      },
-      {
-        path: 'edit-product/:id',
-        loader: ({ params }) => fetch(`http://localhost:3000/products/${params.id}`),
-        Component: EditProduct,
-      },
-      {
-        path: 'my-bids',
-        Component: MyBids,
-      },
-      {
         path: 'productDetails/:id',
-        loader:({params})=>fetch(`http://localhost:3000/products/${params.id}`),
-        Component:ProductDetails,
-      },
-      {
-        path: 'create-product',
-        Component: CreateProduct,
+        loader: ({ params }) => fetch(`http://localhost:3000/products/${params.id}`),
+        Component: ProductDetails,
       },
       {
         path: 'about',
@@ -63,6 +48,41 @@ const router = createBrowserRouter([
       {
         path: 'login',
         Component: Login,
+      },
+
+      // Private routes — require login
+      {
+        path: 'my-products',
+        element: (
+          <PrivateRoute>
+            <MyProducts />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'edit-product/:id',
+        loader: ({ params }) => fetch(`http://localhost:3000/products/${params.id}`),
+        element: (
+          <PrivateRoute>
+            <EditProduct />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'my-bids',
+        element: (
+          <PrivateRoute>
+            <MyBids />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'create-product',
+        element: (
+          <PrivateRoute>
+            <CreateProduct />
+          </PrivateRoute>
+        ),
       },
     ],
   },

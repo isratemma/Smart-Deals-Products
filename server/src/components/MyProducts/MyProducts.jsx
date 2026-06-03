@@ -25,7 +25,10 @@ const MyProducts = () => {
 
   const handleDelete = (id) => {
     if (!window.confirm('Are you sure you want to delete this product?')) return;
-    fetch(`http://localhost:3000/products/${id}`, { method: 'DELETE' })
+    fetch(`http://localhost:3000/products/${id}`, {
+      method: 'DELETE',
+      headers: { authorization: `Bearer ${localStorage.getItem('token')}` },
+    })
       .then((res) => res.json())
       .then(() => setProducts((prev) => prev.filter((p) => p._id !== id)));
   };
@@ -33,7 +36,10 @@ const MyProducts = () => {
   const handleMakeSold = (id) => {
     fetch(`http://localhost:3000/products/${id}`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
       body: JSON.stringify({ status: 'sold' }),
     })
       .then((res) => res.json())

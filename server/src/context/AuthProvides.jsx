@@ -40,6 +40,22 @@ const AuthProvides = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      if (currentUser) {
+        fetch('http://localhost:3000/jwt', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: currentUser.email }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.token) {
+              localStorage.setItem('token', data.token);
+              console.log('JWT token generated:', data.token);
+            }
+          });
+      } else {
+        localStorage.removeItem('token');
+      }
       setLoading(false);
     });
     return () => unsubscribe();

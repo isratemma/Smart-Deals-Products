@@ -24,7 +24,10 @@ const EditProduct = () => {
     setLoading(true);
     fetch(`http://localhost:3000/products/${product._id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
       body: JSON.stringify(form),
     })
       .then((res) => res.json())

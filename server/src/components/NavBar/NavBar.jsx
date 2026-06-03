@@ -25,13 +25,17 @@ export default function Navbar() {
         <span className="text-purple-600">Deals</span>
       </Link>
 
-      {/* Center links — always visible, all 5 links */}
+      {/* Center links */}
       <div className="hidden lg:flex items-center gap-7">
         <NavLink to="/" end className={navLinkClass}>Home</NavLink>
         <NavLink to="/AllProducts" className={navLinkClass}>All Products</NavLink>
-        <NavLink to="/my-products" className={navLinkClass}>My Products</NavLink>
-        <NavLink to="/my-bids" className={navLinkClass}>My Bids</NavLink>
-        <NavLink to="/create-product" className={navLinkClass}>Create Product</NavLink>
+        {user && (
+          <>
+            <NavLink to="/my-products" className={navLinkClass}>My Products</NavLink>
+            <NavLink to="/my-bids" className={navLinkClass}>My Bids</NavLink>
+            <NavLink to="/create-product" className={navLinkClass}>Create Product</NavLink>
+          </>
+        )}
       </div>
 
       {/* Right side */}
@@ -78,9 +82,13 @@ export default function Navbar() {
           <ul className="dropdown-content menu p-3 shadow bg-white rounded-box w-52 z-50 mt-2">
             <li><NavLink to="/" end>Home</NavLink></li>
             <li><NavLink to="/AllProducts">All Products</NavLink></li>
-            <li><NavLink to="/my-products">My Products</NavLink></li>
-            <li><NavLink to="/my-bids">My Bids</NavLink></li>
-            <li><NavLink to="/create-product">Create Product</NavLink></li>
+            {user && (
+              <>
+                <li><NavLink to="/my-products">My Products</NavLink></li>
+                <li><NavLink to="/my-bids">My Bids</NavLink></li>
+                <li><NavLink to="/create-product">Create Product</NavLink></li>
+              </>
+            )}
             <div className="divider my-1"></div>
             {user ? (
               <li><button onClick={handleSignOut}>Sign Out</button></li>

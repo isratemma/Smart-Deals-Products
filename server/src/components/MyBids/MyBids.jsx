@@ -11,10 +11,14 @@ const MyBids = () => {
     if (user === null) { setLoading(false); return; }
     if (user === undefined) return;
 
-    fetch(`http://localhost:3000/bids`)
+    const token = localStorage.getItem('token');
+    console.log('Sending token to server:', token);
+
+    fetch(`http://localhost:3000/bids`, {
+      headers: { authorization: `Bearer ${localStorage.getItem('token')}` },
+    })
       .then((res) => res.json())
       .then((data) => {
-        // filter client-side by logged-in user email
         const myBids = Array.isArray(data)
           ? data.filter((b) => b.bidderEmail === user.email)
           : [];
@@ -26,7 +30,10 @@ const MyBids = () => {
 
   const handleRemoveBid = (id) => {
     if (!window.confirm('Remove this bid?')) return;
-    fetch(`http://localhost:3000/bids/${id}`, { method: 'DELETE' })
+    fetch(`http://localhost:3000/bids/${id}`, {
+      method: 'DELETE',
+      headers: { authorization: `Bearer ${localStorage.getItem('token')}` },
+    })
       .then((res) => res.json())
       .then(() => setBids((prev) => prev.filter((b) => b._id !== id)));
   };
@@ -35,7 +42,6 @@ const MyBids = () => {
     <div className="bg-gray-100 px-6 py-10">
       <div className="max-w-6xl mx-auto">
 
-        {/* Heading */}
         <h1 className="text-4xl font-bold text-gray-800 text-center mb-8">
           My Bids: <span className="text-purple-600">{bids.length}</span>
         </h1>
@@ -69,7 +75,7 @@ const MyBids = () => {
                 <tr className="border-b border-gray-100 text-gray-500 text-xs uppercase tracking-wider">
                   <th className="px-5 py-4">SL No</th>
                   <th className="px-5 py-4">Product</th>
-                  <th className="px-5 py-4">Seller</th>
+                  <th className="px-5 py-4">Bidder</th>
                   <th className="px-5 py-4">Bid Price</th>
                   <th className="px-5 py-4">Status</th>
                   <th className="px-5 py-4">Actions</th>
@@ -78,11 +84,7 @@ const MyBids = () => {
               <tbody>
                 {bids.map((bid, index) => (
                   <tr key={bid._id} className="border-b border-gray-50 hover:bg-gray-50 transition">
-
-                    {/* SL No */}
                     <td className="px-5 py-4 text-gray-500">{index + 1}</td>
-
-                    {/* Product */}
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
                         <img
@@ -97,8 +99,6 @@ const MyBids = () => {
                         </div>
                       </div>
                     </td>
-
-                    {/* Seller */}
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
                         {bid.bidderPhoto ? (
@@ -119,13 +119,9 @@ const MyBids = () => {
                         </div>
                       </div>
                     </td>
-
-                    {/* Bid Price */}
                     <td className="px-5 py-4">
                       <span className="text-gray-800 font-semibold">${bid.bidAmount}</span>
                     </td>
-
-                    {/* Status */}
                     <td className="px-5 py-4">
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
                         bid.status === 'accepted' ? 'bg-green-100 text-green-700'
@@ -137,8 +133,6 @@ const MyBids = () => {
                           : 'Pending'}
                       </span>
                     </td>
-
-                    {/* Actions */}
                     <td className="px-5 py-4">
                       <button
                         onClick={() => handleRemoveBid(bid._id)}
@@ -147,7 +141,6 @@ const MyBids = () => {
                         Remove Bid
                       </button>
                     </td>
-
                   </tr>
                 ))}
               </tbody>

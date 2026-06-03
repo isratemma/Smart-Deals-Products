@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
 const Login = () => {
   const { signInUser, signInWithGoogle } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -30,9 +32,9 @@ const Login = () => {
     signInUser(email, password)
       .then((result) => {
         saveUserToDB(result.user);
-        navigate('/');
+        navigate(from);
       })
-      .catch((err) => {
+      .catch(() => {
         setError('Invalid email or password.');
         setLoading(false);
       });
@@ -43,9 +45,9 @@ const Login = () => {
     signInWithGoogle()
       .then((result) => {
         saveUserToDB(result.user);
-        navigate('/');
+        navigate(from);
       })
-      .catch((err) => {
+      .catch(() => {
         setError('Google sign-in failed. Try again.');
       });
   };
@@ -62,7 +64,6 @@ const Login = () => {
         )}
 
         <form onSubmit={handleLogin}>
-          {/* Email */}
           <label className="block text-sm text-gray-700 mb-1">Email</label>
           <input
             type="email"
@@ -73,7 +74,6 @@ const Login = () => {
             placeholder="Enter your email"
           />
 
-          {/* Password */}
           <label className="block text-sm text-gray-700 mb-1">Password</label>
           <input
             type="password"
@@ -84,7 +84,6 @@ const Login = () => {
             placeholder="Enter your password"
           />
 
-          {/* Login button */}
           <button
             type="submit"
             disabled={loading}
@@ -94,10 +93,8 @@ const Login = () => {
           </button>
         </form>
 
-        {/* OR divider */}
         <div className="text-center text-sm text-gray-400 mb-3">OR</div>
 
-        {/* Google sign in */}
         <button
           onClick={handleGoogleSignIn}
           className="w-full flex items-center justify-center gap-2 border border-gray-300 rounded-lg py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition"
@@ -111,7 +108,6 @@ const Login = () => {
           Sign in with Google
         </button>
 
-        {/* Register link */}
         <p className="text-center text-sm mt-4">
           Don't have an account?{' '}
           <Link to="/register" className="text-purple-600 font-medium hover:underline">
