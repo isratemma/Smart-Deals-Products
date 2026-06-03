@@ -49,20 +49,18 @@ const ProductDetails = () => {
 
   useEffect(() => {
     setBidsLoading(true);
-
     axios
-      .get(`http://localhost:3000/bids?productId=${_id}`)
+      .get(`http://localhost:3000/bids`, {
+        headers: { authorization: `Bearer ${localStorage.getItem('token')}` },
+      })
       .then((res) => {
         const fetchedBids = Array.isArray(res.data)
           ? res.data
               .filter((bid) => bid.productId === _id)
-              .sort(
-                (a, b) =>
-                  new Date(b.bidTime || b.createdAt) -
-                  new Date(a.bidTime || a.createdAt)
+              .sort((a, b) =>
+                new Date(b.bidTime || b.createdAt) - new Date(a.bidTime || a.createdAt)
               )
           : [];
-
         setBids(fetchedBids);
       })
       .catch(() => setBids([]))
