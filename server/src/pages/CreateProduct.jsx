@@ -2,8 +2,10 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
+import useAxios from '../hooks/useAxios';
 
 const CreateProduct = () => {
+  const axiosInstance =useAxios();
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -57,6 +59,10 @@ const CreateProduct = () => {
         setError(err.response?.data?.error || 'Failed to create product. Make sure the server is running.');
         setLoading(false);
       });
+    axiosInstance.post('/products', newProduct)
+    .then(data => {
+      console.log('Product created with useAxios:', data);
+    })
   };
 
   return (
