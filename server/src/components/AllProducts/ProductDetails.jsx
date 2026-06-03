@@ -219,7 +219,6 @@ const ProductDetails = () => {
                 </span>
               )}
 
-              {/* Price */}
               <div className="border border-gray-100 rounded-xl p-4">
                 <p className="text-2xl font-bold text-green-500">
                   ${minPrice} - {maxPrice}
@@ -229,7 +228,6 @@ const ProductDetails = () => {
                 </p>
               </div>
 
-              {/* Product Details */}
               <div className="border border-gray-100 rounded-xl p-4">
                 <h3 className="text-base font-bold text-gray-800 mb-3">
                   Product Details
@@ -248,7 +246,6 @@ const ProductDetails = () => {
                 </div>
               </div>
 
-              {/* Seller Information — dashed blue border */}
               <div className="border-2 border-dashed border-blue-400 rounded-xl p-4">
                 <h3 className="text-base font-bold text-gray-800 mb-3">
                   Seller Information
