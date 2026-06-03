@@ -179,7 +179,6 @@ const ProductDetails = () => {
                 />
               </div>
 
-              {/* Product Description below image */}
               <div className="p-6 border-t border-gray-100">
                 <h3 className="text-lg font-bold text-gray-800 mb-3">
                   Product Description
@@ -204,9 +203,7 @@ const ProductDetails = () => {
               </div>
             </div>
 
-            {/* Right — Info */}
             <div className="lg:w-3/5 p-8 flex flex-col gap-4 border-l border-gray-100">
-              {/* Back link */}
               <Link
                 to="/AllProducts"
                 className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-purple-600 transition"
@@ -214,10 +211,8 @@ const ProductDetails = () => {
                 ← Back To Products
               </Link>
 
-              {/* Title */}
               <h1 className="text-3xl font-bold text-gray-800">{title}</h1>
 
-              {/* Category badge */}
               {category && (
                 <span className="text-xs font-medium text-purple-500 bg-purple-50 border border-purple-200 px-3 py-1 rounded-full w-fit">
                   {category}
