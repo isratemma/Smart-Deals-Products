@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 
 const CreateProduct = () => {
@@ -16,6 +17,7 @@ const CreateProduct = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,6 +26,7 @@ const CreateProduct = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     setLoading(true);
 
     const newProduct = {
@@ -35,20 +38,23 @@ const CreateProduct = () => {
       createdAt: new Date(),
     };
 
-    fetch('http://localhost:3000/products', {
-      method: 'POST',
+    console.log('Submitting product:', newProduct);
+
+    axios.post('http://localhost:3000/products', newProduct, {
       headers: {
         'Content-Type': 'application/json',
         authorization: `Bearer ${localStorage.getItem('token')}`,
       },
-      body: JSON.stringify(newProduct),
     })
-      .then((res) => res.json())
-      .then(() => {
-        navigate('/my-products');
+      .then((res) => {
+        console.log('Product created:', res.data);
+        setSuccess('Product created successfully!');
+        setLoading(false);
+        setTimeout(() => navigate('/my-products'), 1000);
       })
-      .catch(() => {
-        setError('Failed to create product. Make sure the server is running.');
+      .catch((err) => {
+        console.error('Error creating product:', err.response?.data || err.message);
+        setError(err.response?.data?.error || 'Failed to create product. Make sure the server is running.');
         setLoading(false);
       });
   };
@@ -63,6 +69,12 @@ const CreateProduct = () => {
         {error && (
           <div className="bg-red-50 text-red-600 text-sm px-4 py-2 rounded-lg mb-4">
             {error}
+          </div>
+        )}
+
+        {success && (
+          <div className="bg-green-50 text-green-600 text-sm px-4 py-2 rounded-lg mb-4">
+            {success}
           </div>
         )}
 
