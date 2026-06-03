@@ -30,11 +30,8 @@ const ProductDetails = () => {
 
   const {
     _id,
-    title,
     image,
     description,
-    minPrice,
-    maxPrice,
     category,
     condition,
     usage,
@@ -46,6 +43,12 @@ const ProductDetails = () => {
     sellerContact,
     status,
   } = product;
+
+  // handle both old and new field names
+  const productName = product.title || product.name || 'Unnamed Product';
+  const minPrice = product.minPrice || product.price || 0;
+  const maxPrice = product.maxPrice || null;
+  const productImage = image || product.photoURL || 'https://placehold.co/400x320?text=No+Image';
 
   useEffect(() => {
     setBidsLoading(true);
@@ -103,15 +106,15 @@ const ProductDetails = () => {
     e.preventDefault();
     setError('');
 
-    if (Number(price) < Number(minPrice) || Number(price) > Number(maxPrice)) {
+    if (maxPrice && (Number(price) < Number(minPrice) || Number(price) > Number(maxPrice))) {
       setError(`Price must be between $${minPrice} and $${maxPrice}`);
       return;
     }
 
     const bidData = {
       productId: _id,
-      productTitle: title,
-      productImage: image,
+      productTitle: productName,
+      productImage: productImage,
       bidderName: buyerName,
       bidderEmail: buyerEmail,
       bidderPhoto: buyerImage,
@@ -170,8 +173,8 @@ const ProductDetails = () => {
               {/* Image */}
               <div className="bg-gray-100 flex items-center justify-center p-6 min-h-64">
                 <img
-                  src={image}
-                  alt={title}
+                  src={productImage}
+                  alt={productName}
                   className="w-full max-h-72 object-contain rounded-xl"
                   onError={(e) => {
                     e.target.src = 'https://placehold.co/400x320?text=No+Image';
@@ -211,7 +214,7 @@ const ProductDetails = () => {
                 ← Back To Products
               </Link>
 
-              <h1 className="text-3xl font-bold text-gray-800">{title}</h1>
+              <h1 className="text-3xl font-bold text-gray-800">{productName}</h1>
 
               {category && (
                 <span className="text-xs font-medium text-purple-500 bg-purple-50 border border-purple-200 px-3 py-1 rounded-full w-fit">
@@ -221,7 +224,7 @@ const ProductDetails = () => {
 
               <div className="border border-gray-100 rounded-xl p-4">
                 <p className="text-2xl font-bold text-green-500">
-                  ${minPrice} - {maxPrice}
+                  ${minPrice}{maxPrice ? ` - $${maxPrice}` : ''}
                 </p>
                 <p className="text-xs text-gray-400 mt-0.5">
                   Price starts from
