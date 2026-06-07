@@ -22,7 +22,7 @@ const EditProduct = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    fetch(`http://localhost:3000/products/${product._id}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/products/${product._id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

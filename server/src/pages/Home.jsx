@@ -3,7 +3,7 @@ import LatestProducts from '../components/latestProducts/LatestProducts';
 
 // Creates a fresh promise each time — so retrying works
 const fetchProducts = () =>
-  fetch('http://localhost:3000/products').then((res) => {
+  fetch(`${import.meta.env.VITE_API_URL}/products`).then((res) => {
     if (!res.ok) throw new Error('Failed to fetch products');
     return res.json();
   });

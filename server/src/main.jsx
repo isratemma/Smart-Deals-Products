@@ -34,7 +34,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'productDetails/:id',
-        loader: ({ params }) => fetch(`http://localhost:3000/products/${params.id}`),
+        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/products/${params.id}`),
         Component: ProductDetails,
       },
       {
@@ -61,7 +61,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'edit-product/:id',
-        loader: ({ params }) => fetch(`http://localhost:3000/products/${params.id}`),
+        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/products/${params.id}`),
         element: (
           <PrivateRoute>
             <EditProduct />

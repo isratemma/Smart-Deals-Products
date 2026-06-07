@@ -10,7 +10,7 @@ const MyProducts = () => {
   useEffect(() => {
     if (user === null) { setLoading(false); return; }
     if (user === undefined) return;
-    fetch(`http://localhost:3000/products`)
+    fetch(`${import.meta.env.VITE_API_URL}/products`)
       .then((res) => res.json())
       .then((data) => {
         // filter client-side by logged-in user email
@@ -25,7 +25,7 @@ const MyProducts = () => {
 
   const handleDelete = (id) => {
     if (!window.confirm('Are you sure you want to delete this product?')) return;
-    fetch(`http://localhost:3000/products/${id}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/products/${id}`, {
       method: 'DELETE',
       headers: { authorization: `Bearer ${localStorage.getItem('token')}` },
     })
@@ -34,7 +34,7 @@ const MyProducts = () => {
   };
 
   const handleMakeSold = (id) => {
-    fetch(`http://localhost:3000/products/${id}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/products/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

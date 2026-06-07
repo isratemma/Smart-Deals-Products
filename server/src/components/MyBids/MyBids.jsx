@@ -14,7 +14,7 @@ const MyBids = () => {
     const token = localStorage.getItem('token');
     console.log('Sending token to server:', token);
 
-    fetch(`http://localhost:3000/bids`, {
+    fetch(`${import.meta.env.VITE_API_URL}/bids`, {
       headers: { authorization: `Bearer ${localStorage.getItem('token')}` },
     })
       .then((res) => res.json())
@@ -30,7 +30,7 @@ const MyBids = () => {
 
   const handleRemoveBid = (id) => {
     if (!window.confirm('Remove this bid?')) return;
-    fetch(`http://localhost:3000/bids/${id}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/bids/${id}`, {
       method: 'DELETE',
       headers: { authorization: `Bearer ${localStorage.getItem('token')}` },
     })

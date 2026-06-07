@@ -35,7 +35,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     setBidsLoading(true);
-    axios.get(`http://localhost:3000/bids`, {
+    axios.get(`${import.meta.env.VITE_API_URL}/bids`, {
       headers: { authorization: `Bearer ${localStorage.getItem('token')}` },
     })
       .then((res) => {
@@ -85,7 +85,7 @@ const ProductDetails = () => {
       bidTime: new Date().toISOString(),
     };
     setLoading(true);
-    fetch('http://localhost:3000/bids', {
+    fetch(`${import.meta.env.VITE_API_URL}/bids`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', authorization: `Bearer ${localStorage.getItem('token')}` },
       body: JSON.stringify(bidData),
@@ -97,7 +97,7 @@ const ProductDetails = () => {
   };
 
   const updateBidStatus = (bidId, newStatus) => {
-    fetch(`http://localhost:3000/bids/${bidId}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/bids/${bidId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json', authorization: `Bearer ${localStorage.getItem('token')}` },
       body: JSON.stringify({ status: newStatus }),

@@ -41,7 +41,7 @@ const AuthProvides = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
-        fetch('http://localhost:3000/jwt', {
+        fetch(`${import.meta.env.VITE_API_URL}/jwt`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: currentUser.email }),
